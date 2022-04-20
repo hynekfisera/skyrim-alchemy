@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import data from "../resources/alchemy.json";
-import { useState, SyntheticEvent } from "react";
+import { useState } from "react";
 import Ingredient from "../components/Ingredient";
 
 const Home: NextPage = () => {
-  const [filteredEffects, setFilteredEffects] = useState<String[]>([]);
+  const [filteredEffects, setFilteredEffects] = useState<string[]>([]);
 
   const { effects, ingredients } = data;
 
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
             filteredEffects.includes(effect) ? (
               <div
                 key={effect}
-                className="text-green-500"
+                className="text-green-500 hover:text-green-700 cursor-pointer"
                 onClick={() => {
                   setFilteredEffects((f) => f.filter((e) => e !== effect));
                 }}
@@ -32,11 +32,9 @@ const Home: NextPage = () => {
             ) : (
               <div
                 key={effect}
-                className="text-red-500"
+                className="text-red-500 hover:text-red-700 cursor-pointer"
                 onClick={() => {
-                  const temp = filteredEffects;
-                  temp.push(effect);
-                  setFilteredEffects(temp);
+                  setFilteredEffects((f) => f.concat(effect));
                 }}
               >
                 + {effect}
@@ -46,7 +44,7 @@ const Home: NextPage = () => {
         </section>
         <section className="grid grid-cols-6 gap-16">
           {filteredEffects.length === 0 && ingredients.map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} className="w-full" />)}
-          {filteredEffects.length > 0 && ingredients.filter((ingredient) => ingredient.effects.every((e) => filteredEffects.includes(e))).map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} />)}
+          {filteredEffects.length > 0 && ingredients.filter((ingredient) => filteredEffects.every((e) => ingredient.effects.includes(e))).map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} />)}
         </section>
       </main>
     </>
