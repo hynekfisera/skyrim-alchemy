@@ -5,15 +5,14 @@ import Image from "next/image";
 type Props = {
   ingredient: IngredientType;
   className?: string;
-  children?: React.ReactNode;
   filter?: string[];
 };
 
-export default function Ingredient({ ingredient, className, children, filter }: Props) {
+export default function Ingredient({ ingredient, className, filter }: Props) {
   const { effects, image, name } = ingredient;
 
   return (
-    <div className={`flex flex-col items-center ${className || ""}`}>
+    <div className={`p-4 flex flex-col items-center ${className || ""}`}>
       <Image src={image} alt={name} layout="fixed" width={48} height={48} />
       <strong className="font-medium my-1 text-gray-900">{name}</strong>
       <ul className="w-full">
@@ -23,7 +22,6 @@ export default function Ingredient({ ingredient, className, children, filter }: 
           </li>
         ))}
       </ul>
-      {children}
     </div>
   );
 }

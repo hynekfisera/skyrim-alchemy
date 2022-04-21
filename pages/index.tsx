@@ -3,6 +3,8 @@ import Head from "next/head";
 import data from "../resources/alchemy.json";
 import { useState, useEffect } from "react";
 import Ingredient from "../components/Ingredient";
+import FilterWrapper from "../components/FilterWrapper";
+import Effect from "../components/Effect";
 
 const Home: NextPage = () => {
   // filter by effects or ingredients
@@ -25,6 +27,18 @@ const Home: NextPage = () => {
 
   // data from json file
   const { effects, ingredients } = data;
+
+  // function used to modify the filter
+  const modify = (id: string, active: boolean): void => {
+    // check if the item is currently filtered
+    if (active) {
+      // remove item from the filter
+      setFilter((f) => f.filter((i) => i !== id));
+    } else {
+      // add item to the filter
+      setFilter((f) => f.concat(id));
+    }
+  };
 
   return (
     <>
@@ -50,33 +64,26 @@ const Home: NextPage = () => {
       <main className="my-6 max-w-screen-xl mx-auto px-4 xl:px-0 grid grid-cols-2 gap-6">
         <section className="grid grid-cols-2 gap-2 max-h-0">
           {effects.map((effect) =>
-            filter.includes(effect) ? (
-              <div
-                key={effect}
-                className="select-none py-2 px-4 border-2 border-green-200 rounded-lg bg-green-100 hover:bg-green-200 text-green-500 hover:text-green-700 cursor-pointer"
-                onClick={() => {
-                  setFilter((f) => f.filter((e) => e !== effect));
-                }}
-              >
-                {effect}
-              </div>
+            mode ? (
+              <FilterWrapper key={effect} id={effect} active={filter.includes(effect)} modify={modify}>
+                <Effect effect={effect} />
+              </FilterWrapper>
             ) : (
-              <div
-                key={effect}
-                className="select-none py-2 px-4 border-2 border-red-200 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 cursor-pointer"
-                onClick={() => {
-                  setFilter((f) => f.concat(effect));
-                }}
-              >
-                {effect}
-              </div>
+              <Effect effect={effect} filter={filter} />
             )
           )}
         </section>
-        <section className="grid grid-cols-3 gap-16">
-          {filter.length === 0 && ingredients.map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} className="w-full" />)}
-          {combine && filter.length > 0 && ingredients.filter((ingredient) => filter.some((e) => ingredient.effects.includes(e))).map((ingredient, i) => <Ingredient ingredient={ingredient} filter={filter} key={i} />)}
-          {!combine && filter.length > 0 && ingredients.filter((ingredient) => filter.every((e) => ingredient.effects.includes(e))).map((ingredient, i) => <Ingredient ingredient={ingredient} filter={filter} key={i} />)}
+        <section className="grid grid-cols-3 gap-4">
+          {mode &&
+            (filter.length === 0
+              ? ingredients.map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} />)
+              : ingredients.filter((ingredient) => (combine ? filter.some((e) => ingredient.effects.includes(e)) : filter.every((e) => ingredient.effects.includes(e)))).map((ingredient, i) => <Ingredient ingredient={ingredient} filter={filter} key={i} />))}
+          {!mode &&
+            ingredients.map((ingredient) => (
+              <FilterWrapper key={ingredient.name} id={ingredient.name} active={filter.includes(ingredient.name)} modify={modify}>
+                <Ingredient ingredient={ingredient} />
+              </FilterWrapper>
+            ))}
         </section>
       </main>
     </>
