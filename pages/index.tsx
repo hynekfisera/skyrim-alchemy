@@ -15,14 +15,16 @@ const Home: NextPage = () => {
         <title>Alchemy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="p-6">
+      <header>
         <h1 className="text-xl font-medium">Skyrim - Alchemy minigame</h1>
-        <section className="my-4 flex-col">
+      </header>
+      <main className="my-6 max-w-screen-xl mx-auto px-4 xl:px-0 grid grid-cols-2 gap-6">
+        <section className="grid grid-cols-2 gap-2 max-h-0">
           {effects.map((effect) =>
             filteredEffects.includes(effect) ? (
               <div
                 key={effect}
-                className="text-green-500 hover:text-green-700 cursor-pointer"
+                className="select-none py-2 px-4 border-2 border-green-200 rounded-lg bg-green-100 hover:bg-green-200 text-green-500 hover:text-green-700 cursor-pointer"
                 onClick={() => {
                   setFilteredEffects((f) => f.filter((e) => e !== effect));
                 }}
@@ -32,7 +34,7 @@ const Home: NextPage = () => {
             ) : (
               <div
                 key={effect}
-                className="text-red-500 hover:text-red-700 cursor-pointer"
+                className="select-none py-2 px-4 border-2 border-red-200 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 cursor-pointer"
                 onClick={() => {
                   setFilteredEffects((f) => f.concat(effect));
                 }}
@@ -42,7 +44,7 @@ const Home: NextPage = () => {
             )
           )}
         </section>
-        <section className="grid grid-cols-6 gap-16">
+        <section className="grid grid-cols-3 gap-16">
           {filteredEffects.length === 0 && ingredients.map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} className="w-full" />)}
           {filteredEffects.length > 0 && ingredients.filter((ingredient) => filteredEffects.every((e) => ingredient.effects.includes(e))).map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} />)}
         </section>
