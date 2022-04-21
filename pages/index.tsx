@@ -69,7 +69,7 @@ const Home: NextPage = () => {
                 <Effect effect={effect} />
               </FilterWrapper>
             ) : (
-              <Effect effect={effect} filter={filter} />
+              <Effect key={effect} effect={effect} filter={filter} />
             )
           )}
         </section>
