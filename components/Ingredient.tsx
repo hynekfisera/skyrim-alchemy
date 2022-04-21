@@ -6,9 +6,10 @@ type Props = {
   ingredient: IngredientType;
   className?: string;
   children?: React.ReactNode;
+  filter?: string[];
 };
 
-export default function Ingredient({ ingredient, className, children }: Props) {
+export default function Ingredient({ ingredient, className, children, filter }: Props) {
   const { effects, image, name } = ingredient;
 
   return (
@@ -17,7 +18,7 @@ export default function Ingredient({ ingredient, className, children }: Props) {
       <strong className="font-medium my-1 text-gray-900">{name}</strong>
       <ul className="w-full">
         {effects.map((effect) => (
-          <li key={effect} className="text-sm text-gray-600">
+          <li key={effect} className={`text-sm ${filter?.includes(effect) ? "text-green-500 font-medium" : "text-gray-600"}`}>
             {effect}
           </li>
         ))}
