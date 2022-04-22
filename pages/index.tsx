@@ -46,23 +46,49 @@ const Home: NextPage = () => {
         <title>Alchemy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header className="max-w-screen-xl mx-auto pt-6">
+      <header className="max-w-screen-xl mx-auto px-4 xl:px-0 pt-6">
         <h1 className="text-2xl font-medium">Skyrim - Alchemy minigame</h1>
-        <section>
-          <div>
-            <label htmlFor="mode">Filter by effects/ingredients</label>
-            <input type="checkbox" id="mode" checked={mode} onChange={() => setMode((m) => !m)} />
+        <section className="mt-3 flex gap-4 flex-wrap">
+          <div className="block">
+            <span className="text-gray-700 text-lg">Filter by</span>
+            <div className="mt-1">
+              <div>
+                <label className="inline-flex items-center cursor-pointer">
+                  <input type="radio" className="form-radio" name="mode" checked={mode} onChange={() => setMode(true)} />
+                  <span className="ml-2">Effects</span>
+                </label>
+              </div>
+              <div>
+                <label className="inline-flex items-center cursor-pointer">
+                  <input type="radio" className="form-radio" name="mode" checked={!mode} onChange={() => setMode(false)} />
+                  <span className="ml-2">Ingredients</span>
+                </label>
+              </div>
+            </div>
           </div>
           {mode && (
-            <div>
-              <label htmlFor="combine">Combine more than 2</label>
-              <input type="checkbox" id="combine" checked={combine} onChange={() => setCombine((m) => !m)} />
+            <div className="block">
+              <span className="text-gray-700 text-lg">Combine</span>
+              <div className="mt-1">
+                <div>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input type="radio" className="form-radio" name="combine" checked={!combine} onChange={() => setCombine(false)} />
+                    <span className="ml-2">2 ingredients</span>
+                  </label>
+                </div>
+                <div>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input type="radio" className="form-radio" name="combine" checked={combine} onChange={() => setCombine(true)} />
+                    <span className="ml-2">3 ingredients</span>
+                  </label>
+                </div>
+              </div>
             </div>
           )}
         </section>
       </header>
       <main className="my-6 max-w-screen-xl mx-auto px-4 xl:px-0 grid grid-cols-2 gap-6">
-        <section className="grid grid-cols-2 gap-2 max-h-0">
+        <section className="grid sm:grid-cols-2 gap-2 max-h-0">
           {effects.map((effect) =>
             mode ? (
               <FilterWrapper key={effect} id={effect} active={filter.includes(effect)} modify={modify}>
@@ -73,7 +99,7 @@ const Home: NextPage = () => {
             )
           )}
         </section>
-        <section className="grid grid-cols-3 gap-4">
+        <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {mode &&
             (filter.length === 0
               ? ingredients.map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} />)
