@@ -3,6 +3,7 @@ import React from "react";
 type Props = {
   id: string;
   active: boolean;
+  // function used to modify the filter
   modify: (id: string, active: boolean) => void;
   className?: string;
   children: React.ReactNode;

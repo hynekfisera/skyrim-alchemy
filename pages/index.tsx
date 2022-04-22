@@ -66,6 +66,7 @@ const Home: NextPage = () => {
               </div>
             </div>
           </div>
+          {/* show only when filtering by effects */}
           {mode && (
             <div className="block">
               <span className="text-gray-700 text-lg">Combine</span>
@@ -87,29 +88,40 @@ const Home: NextPage = () => {
           )}
         </section>
       </header>
+      {/* container which contains two sections - effects on the left, ingredients on the right */}
       <main className="my-6 max-w-screen-xl mx-auto px-4 xl:px-0 grid grid-cols-2 gap-6">
         <section className="grid sm:grid-cols-2 gap-2 max-h-0">
           {effects.map((effect) =>
             mode ? (
+              // display all effects and add FilterWrapper when filtering by effects
               <FilterWrapper key={effect} id={effect} active={filter.includes(effect)} modify={modify}>
                 <Effect effect={effect} />
               </FilterWrapper>
             ) : (
+              // add filter attribute to highlight effects that we can get from currently filtered ingredients
               <Effect key={effect} effect={effect} filter={filter} />
             )
           )}
         </section>
         <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {mode &&
-            (filter.length === 0
-              ? ingredients.map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} />)
-              : ingredients.filter((ingredient) => (combine ? filter.some((e) => ingredient.effects.includes(e)) : filter.every((e) => ingredient.effects.includes(e)))).map((ingredient, i) => <Ingredient ingredient={ingredient} filter={filter} key={i} />))}
-          {!mode &&
-            ingredients.map((ingredient) => (
-              <FilterWrapper key={ingredient.name} id={ingredient.name} active={filter.includes(ingredient.name)} modify={modify}>
-                <Ingredient ingredient={ingredient} />
-              </FilterWrapper>
-            ))}
+          {
+            // display only filtered ingredients when filtering by effects
+            mode &&
+              (filter.length === 0
+                ? // display all when no filters are applied
+                  ingredients.map((ingredient, i) => <Ingredient ingredient={ingredient} key={i} />)
+                : // use every() when combining 2, use some() when combining 3
+                  ingredients.filter((ingredient) => (combine ? filter.some((e) => ingredient.effects.includes(e)) : filter.every((e) => ingredient.effects.includes(e)))).map((ingredient, i) => <Ingredient ingredient={ingredient} filter={filter} key={i} />))
+          }
+          {
+            // display all ingredients and add FilterWrapper when filtering by ingredients
+            !mode &&
+              ingredients.map((ingredient) => (
+                <FilterWrapper key={ingredient.name} id={ingredient.name} active={filter.includes(ingredient.name)} modify={modify}>
+                  <Ingredient ingredient={ingredient} />
+                </FilterWrapper>
+              ))
+          }
         </section>
       </main>
     </>
