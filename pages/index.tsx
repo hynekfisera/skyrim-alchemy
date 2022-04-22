@@ -55,13 +55,13 @@ const Home: NextPage = () => {
               <div>
                 <label className="inline-flex items-center cursor-pointer">
                   <input type="radio" className="form-radio" name="mode" checked={mode} onChange={() => setMode(true)} />
-                  <span className="ml-2">Effects</span>
+                  <span className="ml-2 select-none">Effects</span>
                 </label>
               </div>
               <div>
                 <label className="inline-flex items-center cursor-pointer">
                   <input type="radio" className="form-radio" name="mode" checked={!mode} onChange={() => setMode(false)} />
-                  <span className="ml-2">Ingredients</span>
+                  <span className="ml-2 select-none">Ingredients</span>
                 </label>
               </div>
             </div>
@@ -74,13 +74,13 @@ const Home: NextPage = () => {
                 <div>
                   <label className="inline-flex items-center cursor-pointer">
                     <input type="radio" className="form-radio" name="combine" checked={!combine} onChange={() => setCombine(false)} />
-                    <span className="ml-2">2 ingredients</span>
+                    <span className="ml-2 select-none">2 ingredients</span>
                   </label>
                 </div>
                 <div>
                   <label className="inline-flex items-center cursor-pointer">
                     <input type="radio" className="form-radio" name="combine" checked={combine} onChange={() => setCombine(true)} />
-                    <span className="ml-2">3 ingredients</span>
+                    <span className="ml-2 select-none">3 ingredients</span>
                   </label>
                 </div>
               </div>
